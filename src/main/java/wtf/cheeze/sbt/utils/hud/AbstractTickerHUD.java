@@ -19,6 +19,8 @@
 package wtf.cheeze.sbt.utils.hud;
 
 import net.minecraft.client.gui.DrawContext;
+//? if >=1.21.3
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import wtf.cheeze.sbt.SkyblockTweaks;
 import wtf.cheeze.sbt.utils.render.RenderUtils;
@@ -57,7 +59,7 @@ public abstract class AbstractTickerHUD extends HUD{
     private float drawTickers(DrawContext context, int number, float x, int y, float scale, boolean filled) {
         float drawX = x;
         for (int i = 0; i < number; i++) {
-            context.drawTexture(filled ? FULL : BLANK, (int) (drawX / scale), (int) (y / scale), 0, 0, DIMENSION, DIMENSION, DIMENSION , DIMENSION);
+            context.drawTexture(/*? if >=1.21.3 {*/ RenderLayer::getGuiTextured, /*?}*/ filled ? FULL : BLANK, (int) (drawX / scale), (int) (y / scale), 0, 0, DIMENSION, DIMENSION, DIMENSION , DIMENSION);
             drawX = (2 + drawX + (DIMENSION * scale));
         }
         return drawX;

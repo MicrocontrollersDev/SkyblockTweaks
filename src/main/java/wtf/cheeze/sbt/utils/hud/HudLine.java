@@ -50,9 +50,11 @@ public class HudLine {
             case OUTLINE:
                 if (useIcon.get()) {
                     icon.get().render(context, (int) (x /scale), (int) (y /scale));
-                    RenderUtils.drawStringWithOutline(context, text.get(), x + (int) (10 * scale), y, color.get(), outlineColor.get(), scale, true);
+                    // TODO: 1.21.3 - uncomment
+//                    RenderUtils.drawStringWithOutline(context, text.get(), x + (int) (10 * scale), y, color.get(), outlineColor.get(), scale, true);
                 } else {
-                    RenderUtils.drawStringWithOutline(context, text.get(), x, y, color.get(), outlineColor.get(), scale, true);
+                    // TODO: 1.21.3 - uncomment
+//                    RenderUtils.drawStringWithOutline(context, text.get(), x, y, color.get(), outlineColor.get(), scale, true);
                 }
         }
     }

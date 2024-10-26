@@ -48,7 +48,7 @@ public class ChatProtections {
                     return true;
                 }
                 lastMessageCoop = TimedValue.of(message, 5000);
-                SkyblockTweaks.mc.player.sendMessage(Text.literal(String.format(BASE_COOP_MESSAGE, message.split(" ")[1])));
+                SkyblockTweaks.mc.player.sendMessage(Text.literal(String.format(BASE_COOP_MESSAGE, message.split(" ")[1])) /*? if >=1.21.3 {*/ , false /*?}*/);
                 return false;
             } else if (SBTConfig.get().chatProtections.ip) {
                 var i = checkIp(message);
@@ -75,17 +75,17 @@ public class ChatProtections {
      * @param address Whether it's "ip" or an ip adress
      */
     private static boolean handleIpMessage(String message, boolean address) {
-            if (lastMessageIp.getValue() != null && lastMessageIp.getValue().equals(message)) {
-                return true;
-            }
-            lastMessageIp = TimedValue.of(message, 5000);
-            if (address) {
-                SkyblockTweaks.mc.player.sendMessage(Text.literal("§7[§aSkyblockTweaks§f§7] §cAre you sure you want to send a message with an ip address? Hypixel may ban you for this! Send the message again to confirm."));
-            } else {
-                SkyblockTweaks.mc.player.sendMessage(Text.literal("§7[§aSkyblockTweaks§f§7] §cAre you sure you want to send a message with the word \"ip\" in it? Hypixel has been known to auto mute/ban messages containing \"ip\"! Send the message again to confirm."));
-            }
+        if (lastMessageIp.getValue() != null && lastMessageIp.getValue().equals(message)) {
+            return true;
+        }
+        lastMessageIp = TimedValue.of(message, 5000);
+        if (address) {
+            SkyblockTweaks.mc.player.sendMessage(Text.literal("§7[§aSkyblockTweaks§f§7] §cAre you sure you want to send a message with an ip address? Hypixel may ban you for this! Send the message again to confirm.") /*? if >=1.21.3 {*/ , false /*?}*/);
+        } else {
+            SkyblockTweaks.mc.player.sendMessage(Text.literal("§7[§aSkyblockTweaks§f§7] §cAre you sure you want to send a message with the word \"ip\" in it? Hypixel has been known to auto mute/ban messages containing \"ip\"! Send the message again to confirm.") /*? if >=1.21.3 {*/ , false /*?}*/);
+        }
 
-            return false;
+        return false;
     }
 
     private static int checkIp(String message) {

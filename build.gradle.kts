@@ -1,5 +1,5 @@
 plugins {
-	id("fabric-loom") version "1.7-SNAPSHOT"
+	id("fabric-loom") version "1.8-SNAPSHOT"
 	id("maven-publish")
 }
 
@@ -13,7 +13,8 @@ base {
 repositories {
 	maven("https://maven.isxander.dev/releases")
 	maven("https://maven.terraformersmc.com/")
-	exclusiveContent {
+	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+exclusiveContent {
 		forRepository {
 			maven {
 				url = uri("https://maven.azureaaron.net/releases")
@@ -34,6 +35,7 @@ dependencies {
 	modImplementation ("dev.isxander:yet-another-config-lib:${property("yacl_version")}")
 	modImplementation ("com.terraformersmc:modmenu:${property("modmenu_version")}")
 	include(modImplementation("net.azureaaron:hm-api:${property("hmapi_version")}") as Any)
+	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1") // i dont care to set up gradle property rn
 
 }
 tasks.processResources {

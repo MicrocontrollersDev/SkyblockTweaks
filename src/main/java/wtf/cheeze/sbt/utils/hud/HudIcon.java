@@ -1,6 +1,8 @@
 package wtf.cheeze.sbt.utils.hud;
 
 import net.minecraft.client.gui.DrawContext;
+//? if >=1.21.3
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +24,7 @@ public class HudIcon {
 
     public void render(DrawContext context, int x, int y) {
         switch (mode) {
-            case TEXTURE -> context.drawTexture(iconTexture, x, y, 0, 0, 8, 8, 8, 8);
+            case TEXTURE -> context.drawTexture(/*? if >=1.21.3 {*/ RenderLayer::getGuiTextured, /*?}*/ iconTexture, x, y, 0, 0, 8, 8, 8, 8);
             case ITEM -> context.drawItem(iconStack, x, y);
         }
     }

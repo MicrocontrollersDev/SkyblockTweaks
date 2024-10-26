@@ -45,7 +45,7 @@ public abstract class DrawContextMixin implements ModifiedDrawContext {
         int i = this.client.options.getTextBackgroundColor(0.0F);
         if (i != 0) {
             Objects.requireNonNull(textRenderer);
-            this.fill(x -2, y-2 ,  x + width + 2, y + 9 + 2, ColorHelper.Argb.mixColor(i, color));
+            this.fill(x -2, y-2 , x + width + 2, y + 9 + 2, ColorHelper./*? if >=1.21.3 {*/mix/*?} else {*//*Argb.mixColor*//*?}*/(i, color));
         }
         return this.drawText(textRenderer, text, x, y, color, false);
     }

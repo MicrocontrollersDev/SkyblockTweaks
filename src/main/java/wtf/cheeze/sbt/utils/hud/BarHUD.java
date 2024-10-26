@@ -19,6 +19,8 @@
 package wtf.cheeze.sbt.utils.hud;
 
 import net.minecraft.client.gui.DrawContext;
+//? >=1.21.3
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import wtf.cheeze.sbt.SkyblockTweaks;
 import wtf.cheeze.sbt.utils.render.RenderUtils;
@@ -41,16 +43,28 @@ public abstract class BarHUD extends HUD {
         }
         var colors = RenderUtils.getColor3f((int) INFO.getColor.get());
         if (bounds.scale == 1.0f) {
-            context.setShaderColor(colors.red, colors.green, colors.blue, 1.0f);
+            //? if >=1.21.3 {
+            // TODO: 1.21.3 - not sure how to deal with colors
+            context.drawTexture(RenderLayer::getGuiTextured, UNFILLED, bounds.x, bounds.y, 0, 0, BAR_WIDTH, BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
+            context.drawTexture(RenderLayer::getGuiTextured, FILLED, bounds.x, bounds.y, 0, 0, calculateFill((float) INFO.getFill.get()), BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
+            //?} else {
+            /*context.setShaderColor(colors.red, colors.green, colors.blue, 1.0f);
             context.drawTexture(UNFILLED, bounds.x, bounds.y, 0, 0, BAR_WIDTH, BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
             context.drawTexture(FILLED, bounds.x, bounds.y, 0, 0, calculateFill((float) INFO.getFill.get()), BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
             context.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            *///?}
         } else {
             RenderUtils.beginScale(context, bounds.scale);
-            context.setShaderColor(colors.red, colors.green, colors.blue, 1.0f);
+            //? if >=1.21.3 {
+            // TODO: 1.21.3 - not sure how to deal with colors
+            context.drawTexture(RenderLayer::getGuiTextured, UNFILLED, (int)(bounds.x/bounds.scale), (int)(bounds.y/bounds.scale), 0, 0, BAR_WIDTH, BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
+            context.drawTexture(RenderLayer::getGuiTextured, FILLED, (int)(bounds.x/bounds.scale), (int)(bounds.y/bounds.scale), 0, 0, calculateFill((float) INFO.getFill.get()), BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
+            //?} else {
+            /*context.setShaderColor(colors.red, colors.green, colors.blue, 1.0f);
             context.drawTexture(UNFILLED, (int)(bounds.x/bounds.scale), (int)(bounds.y/bounds.scale), 0, 0, BAR_WIDTH, BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
             context.drawTexture(FILLED, (int)(bounds.x/bounds.scale), (int)(bounds.y/bounds.scale), 0, 0, calculateFill((float) INFO.getFill.get()), BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
             context.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            *///?}
             RenderUtils.endScale(context);
         }
     }

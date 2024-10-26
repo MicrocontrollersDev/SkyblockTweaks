@@ -20,6 +20,8 @@ package wtf.cheeze.sbt.utils.render;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import wtf.cheeze.sbt.SkyblockTweaks;
 
@@ -44,16 +46,17 @@ public class RenderUtils {
     public static void drawString(DrawContext context, Text text, int x, int y, int color, boolean shadow) {
         context.drawText(SkyblockTweaks.mc.textRenderer, text, x, y, color, shadow);
     }
-    public static void drawStringWithOutline (DrawContext context, Text text, int x, int y, int color, int outlineColor) {
+    public static void drawStringWithOutline(DrawContext context, Text text, int x, int y, int color, int outlineColor) {
         // TODO: This currently renders weirdly, fix it
-        SkyblockTweaks.mc.textRenderer.drawWithOutline(text.asOrderedText(), x, y, color, outlineColor, context.getMatrices().peek().getPositionMatrix(), context.getVertexConsumers(), 15728880);
+        // TODO: Port to 1.21.3
+        //SkyblockTweaks.mc.textRenderer.drawWithOutline(text.asOrderedText(), x, y, color, outlineColor, context.getMatrices().peek().getPositionMatrix(), context.draw(vertexConsumerProvider -> vertexConsumerProvider.getBuffer(/* no clue lol */)), 15728880);
     }
-    public static void drawStringWithOutline (DrawContext context, Text text, int x, int y, int color, int outlineColor, float scale) {
+    public static void drawStringWithOutline(DrawContext context, Text text, int x, int y, int color, int outlineColor, float scale) {
         beginScale(context, scale);
         drawStringWithOutline(context, text, (int) (x/scale), (int) (y/scale), color, outlineColor);
         endScale(context);
     }
-    public static void drawStringWithOutline (DrawContext context, Text text, int x, int y, int color, int outlineColor, float scale, boolean imHandlingTheScaleMyself) {
+    public static void drawStringWithOutlin (DrawContext context, Text text, int x, int y, int color, int outlineColor, float scale, boolean imHandlingTheScaleMyself) {
         drawStringWithOutline(context, text, (int) (x/scale), (int) (y/scale), color, outlineColor);
     }
 
