@@ -40,6 +40,8 @@ import wtf.cheeze.sbt.utils.text.TextUtils;
 
 import java.util.List;
 
+import static dev.isxander.yacl3.gui.utils.KeyUtils.hasShiftDown;
+
 /**
  * A popup screen for changing HUD composition
  * TODO: MoveUp and down buttons are still a little jank
@@ -386,7 +388,7 @@ public class CompositionPopupScreen<T extends CompositionEntry> extends Screen {
         }
 
         public AbstractList(Minecraft minecraftClient, int width, int height, int x, int y, int entryHeight) {
-            super(minecraftClient, width, height, y, entryHeight, 0);
+            super(minecraftClient, width, height, y, entryHeight /*? if 1.21.8 {*//*, 0 *//*?}*/);
             this.x = x;
         }
 

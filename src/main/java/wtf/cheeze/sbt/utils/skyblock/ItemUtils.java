@@ -42,7 +42,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ItemUtils {
-
     public static boolean isPickaxe(Item item) {
         return item.equals(Items.WOODEN_PICKAXE) ||
                 item.equals(Items.STONE_PICKAXE) ||
@@ -69,7 +68,6 @@ public class ItemUtils {
 
         return reforge.asString().orElse("");
     }
-
 
    public static ItemStack getVanilla(String minecraftID) {
         return getVanilla(minecraftID, 1);
@@ -98,8 +96,6 @@ public class ItemUtils {
         return getSkyblock(minecraftID, skyblockID, enchanted, 1);
     }
 
-
-
     public static ItemStack getSkyblock(String minecraftID, String skyblockID, boolean enchanted, int count) {
         return new ItemStack(
                 getRegistryEntry(minecraftID),
@@ -109,7 +105,6 @@ public class ItemUtils {
                         .set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, enchanted)
                         .build());
     }
-
 
     /**
      * Creates an item stack representing a player head with the given skull name and skyblock ID
@@ -128,6 +123,7 @@ public class ItemUtils {
                         .build()
         );
     }
+
     public static ItemStack getHead(String skyblockID, String skullName) {
         return getHead(skyblockID, false, skullName);
     }
@@ -160,7 +156,6 @@ public class ItemUtils {
         }
     }
 
-
     private static CustomData getSkyblockItemNBT(String skyblockID) {
         var tag = new CompoundTag();
         tag.putString("id", skyblockID);
@@ -180,7 +175,6 @@ public class ItemUtils {
         }
 
         private static SkullMap INSTANCE;
-
 
         public static SkullMap getInstance() {
             if (INSTANCE == null) {

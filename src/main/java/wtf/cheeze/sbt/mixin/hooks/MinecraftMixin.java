@@ -19,7 +19,8 @@
 package wtf.cheeze.sbt.mixin.hooks;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ReceivingLevelScreen;
+//? if 1.21.8
+/*import net.minecraft.client.gui.screens.ReceivingLevelScreen.Reason;*/
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +31,7 @@ import wtf.cheeze.sbt.events.WorldLoadEvents;
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
     @Inject(method = "setLevel", at = @At("TAIL"))
-    private void sbt$onJoinWorld(ClientLevel world, ReceivingLevelScreen.Reason worldEntryReason, CallbackInfo ci) {
-        WorldLoadEvents.WORLD_LOAD.invoker().onWorldLoad(world, worldEntryReason);
+    private void sbt$onJoinWorld(ClientLevel world, /*? if 1.21.8 {*/ /*ReceivingLevelScreen.Reason worldEntryReason, *//*?}*/ CallbackInfo ci) {
+        WorldLoadEvents.WORLD_LOAD.invoker().onWorldLoad(world /*? if 1.21.8 {*//*, worldEntryReason *//*?}*/);
     }
 }

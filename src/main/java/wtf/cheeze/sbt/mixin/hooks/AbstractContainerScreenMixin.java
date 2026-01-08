@@ -21,6 +21,8 @@ package wtf.cheeze.sbt.mixin.hooks;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.world.inventory.BrewingStandMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
@@ -75,8 +77,13 @@ public abstract class AbstractContainerScreenMixin<T extends AbstractContainerMe
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    public void sbt$onMouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+    public void sbt$onMouseClicked(/*? if >= 1.21.10 {*/ MouseButtonEvent event, boolean isDoubleClick /*?} else {*/ /*double mouseX, double mouseY, int button *//*?}*/, CallbackInfoReturnable<Boolean> cir) {
         if (this.sbt$popup != null) {
+            //? if >= 1.21.10 {
+            double mouseX = event.x();
+            double mouseY = event.y();
+            int button = event.button();
+            //?}
             if (this.sbt$popup.mouseClicked(mouseX, mouseY, button)) {
                 cir.setReturnValue(true);
             }
@@ -84,8 +91,13 @@ public abstract class AbstractContainerScreenMixin<T extends AbstractContainerMe
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-    public void sbt$onKeyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    public void sbt$onKeyPressed(/*? if >= 1.21.10 {*/ KeyEvent event /*?} else {*/ /*int keyCode, int scanCode, int modifiers *//*?}*/, CallbackInfoReturnable<Boolean> cir) {
         if (this.sbt$popup != null) {
+            //? if >= 1.21.10 {
+            int keyCode = event.key();
+            int scanCode = event.scancode();
+            int modifiers = event.modifiers();
+            //?}
             if (this.sbt$popup.keyPressed(keyCode, scanCode, modifiers)) {
                 cir.setReturnValue(true);
             }

@@ -25,6 +25,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
+//? if >= 1.21.10
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -40,6 +42,8 @@ import wtf.cheeze.sbt.utils.render.RenderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static dev.isxander.yacl3.gui.utils.KeyUtils.*;
 
 public class HudScreen extends Screen {
     private static final float RELATIVE_MOVE_AMOUNT = 2.0f;
@@ -198,8 +202,8 @@ public class HudScreen extends Screen {
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        boolean x = super.mouseReleased(mouseX, mouseY, button);
+    public boolean mouseReleased(/*? if >= 1.21.10 {*/ MouseButtonEvent event /*?} else {*/ /*double mouseX, double mouseY, int button *//*?}*/) {
+        boolean x = super.mouseReleased(/*? if >= 1.21.10 {*/ event /*?} else {*/ /*mouseX, mouseY, button *//*?}*/);
         if (this.mode == Mode.DRAG) selectedElement = null;
         return x;
     }
@@ -215,14 +219,14 @@ public class HudScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-
-        if (hasAltDown() && hasControlDown()) {
+        if (hasAltDown(modifiers) && hasControlDown()) {
             textToggledOff = !textToggledOff;
         }
 
         if (keyCode == GLFW.GLFW_KEY_R && hasControlDown()) {
             setMode(Mode.RESET);
         }
+
         if (this.mode == Mode.DRAG) {
             if (this.hoveredElement != null) {
                 switch (keyCode) {
