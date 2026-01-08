@@ -27,6 +27,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import wtf.cheeze.sbt.config.SBTConfig;
@@ -69,12 +70,17 @@ public class CompositionPopupScreen<T extends CompositionEntry> extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(/*? if >= 1.21.10 {*/ MouseButtonEvent event, boolean isDoubleClick /*?} else {*/ /*double mouseX, double mouseY, int button *//*?}*/) {
+        //? if >= 1.21.10 {
+        double mouseX = event.x();
+        double mouseY = event.y();
+        int button = event.button();
+        //?}
         if (mouseX < popupX - CLICK_CLOSE_BUFFER || mouseX > rightEdge + CLICK_CLOSE_BUFFER || mouseY < popupY - CLICK_CLOSE_BUFFER || mouseY > popupY + HEIGHT + CLICK_CLOSE_BUFFER) {
             onClose();
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(/*? if >= 1.21.10 {*/ event, isDoubleClick /*?} else {*/ /*mouseX, mouseY, button *//*?}*/);
     }
 
     private int popupX;
@@ -237,7 +243,6 @@ public class CompositionPopupScreen<T extends CompositionEntry> extends Screen {
     private static final Component DOWN_SYMBOL = Component.literal(Symbols.BUTTON_DOWN);
 
     private class ModifyItemList extends AbstractList<ModifyItemListEntry> {
-
         private static final int HEIGHT = 90;
         private static final int WIDTH = 90;
 
@@ -249,7 +254,6 @@ public class CompositionPopupScreen<T extends CompositionEntry> extends Screen {
         protected void setupEntries() {
             for (var item: binding.getValue()) {
                 addEntry(new ModifyItemListEntry(item));
-
             }
             if (sbtCheckOverflow()) {
                 this.x = rightEdge - 6 - WIDTH - SCROLLBAR_WIDTH;
@@ -429,7 +433,6 @@ public class CompositionPopupScreen<T extends CompositionEntry> extends Screen {
         }
 
         protected abstract void setupEntries();
-
     }
 
     private abstract class AbstractEntry<E extends ObjectSelectionList.Entry<E>> extends ObjectSelectionList.Entry<E> {

@@ -55,15 +55,12 @@ import wtf.cheeze.sbt.utils.skyblock.ItemUtils;
 import java.util.*;
 
 public class MinionExp {
-
-
     @Language("RegExp")
     public static final String MINION_EXP_SCREEN_REGEX = "Minion Chest|.+ Minion [IVX]+";
     private static final int[] MINION_SLOTS = {21, 22, 23, 24, 25, 30, 31, 32, 33, 34, 39, 40, 41, 42, 43};
 
     private static String contents = "____";
     private static final String FEATURE_ID = "minion_exp_overlay";
-
 
     public static void registerEvents() {
         ScreenEvents.AFTER_INIT.register((client, screen, width, height) -> {
@@ -74,15 +71,12 @@ public class MinionExp {
     }
 
     public static class MinionExpPopup implements Popup {
-
         private static final int CHEST_LAST_SLOT = 27;
         private final int x;
         private final int y;
         private final AbstractContainerScreen<?> screen;
         private final boolean isChest;
         private final List<EditBox> children;
-
-
 
         public MinionExpPopup(AbstractContainerScreen<?> screen) {
             this.x = SBTConfig.get().minionExp.side.positionPopup(screen.leftPos);
@@ -97,8 +91,6 @@ public class MinionExp {
             screen.renderables.add(this);
             screen.addRenderableWidget(textWidget);
         }
-
-
 
         @Override
         public int x() {
@@ -119,7 +111,6 @@ public class MinionExp {
         public Screen screen() {
             return screen;
         }
-
 
         //TODO: Switch to text widgets
         @Override
@@ -196,10 +187,7 @@ public class MinionExp {
             contents = text;
             return  text.isEmpty() || text.equals("____") ? 1f : 1f + Float.parseFloat(text) / 100f;
         }
-
-
     }
-
 
     private static Skill getPrimarySkill(Collection<Skill> skills) {
         if (skills.contains(Skill.MINING)){
@@ -222,7 +210,6 @@ public class MinionExp {
 
         @SerialEntry
         public boolean shadowText = false;
-
 
         public static OptionGroup getGroup(ConfigImpl defaults, ConfigImpl config) {
             var enabled = Option.<Boolean>createBuilder()
@@ -265,9 +252,6 @@ public class MinionExp {
                     .option(side)
                     .option(shadowText)
                     .build();
-
-
         }
     }
-
 }

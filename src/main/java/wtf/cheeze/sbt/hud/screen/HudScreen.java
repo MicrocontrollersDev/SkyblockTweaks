@@ -18,6 +18,7 @@
  */
 package wtf.cheeze.sbt.hud.screen;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
@@ -26,6 +27,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 //? if >= 1.21.10
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
@@ -98,6 +100,12 @@ public class HudScreen extends Screen {
         hud.updatePosition(bounds.x, bounds.y + amount);
     }
 
+    public static boolean hasAltDown() {
+        return InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 342)
+                || InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 346);
+    }
+
+
     @Override
     @SuppressWarnings("MagicNumber")
     protected void init() {
@@ -164,8 +172,8 @@ public class HudScreen extends Screen {
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        boolean b = super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    public boolean mouseDragged(/*? if >= 1.21.10 {*/ MouseButtonEvent event, /*?}*/ double mouseX, double mouseY /*? if 1.21.8 {*//*, int button, double deltaX, double deltaY *//*?}*/) {
+        boolean b = super.mouseDragged(/*? if >= 1.21.10 {*/ event, /*?}*/ mouseX, mouseY /*? if 1.21.8 {*//*, button, deltaX, deltaY *//*?}*/);
         if (this.mode != Mode.DRAG) return b;
         if (selectedElement != null) {
             selectedElement.updatePosition(HUD.getRelativeX(mouseX - offsetX), HUD.getRelativeY(mouseY - offsetY));
@@ -174,9 +182,13 @@ public class HudScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        boolean b = super.mouseClicked(mouseX, mouseY, button);
+    public boolean mouseClicked(/*? if >= 1.21.10 {*/ MouseButtonEvent event, boolean isDoubleCkick /*?} else {*/ /*double mouseX, double mouseY, int button *//*?}*/) {
+        boolean b = super.mouseClicked(/*? if >= 1.21.10 {*/ event, isDoubleCkick /*?} else {*/ /*mouseX, mouseY, button *//*?}*/);
         selectedViaTheKeyboard = null;
+        //? if >= 1.21.10 {
+        double mouseX = event.x();
+        double mouseY = event.y();
+        //?}
         for (HUD hud : huds) {
             if (clickInBounds(hud, mouseX, mouseY)) {
 //                if (hasControlDown() || this.mode == Mode.TEXT) {
@@ -218,8 +230,12 @@ public class HudScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (hasAltDown(modifiers) && hasControlDown()) {
+    public boolean keyPressed(/*? if >= 1.21.10 {*/ KeyEvent event /*?} else {*/ /*int keyCode, int scanCode, int modifiers *//*?}*/) {
+        //? if >= 1.21.10 {
+        int keyCode = event.key();
+        //?}
+
+        if (hasAltDown() && hasControlDown()) {
             textToggledOff = !textToggledOff;
         }
 
@@ -281,7 +297,7 @@ public class HudScreen extends Screen {
                 return true;
             }
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(/*? if >= 1.21.10 {*/ event /*?} else {*/ /*keyCode, scanCode, modifiers *//*?}*/);
     }
 
     private void setMode(Mode newMode) {

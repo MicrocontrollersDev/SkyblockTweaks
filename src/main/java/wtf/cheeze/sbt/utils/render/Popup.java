@@ -36,7 +36,6 @@ public interface Popup extends Renderable {
     int WIDTH = 80;
     int HEIGHT = 130;
 
-
     int x();
     int y();
 
@@ -57,24 +56,20 @@ public interface Popup extends Renderable {
             screen().removeWidget(child);
         }
     }
+
     default int centerX() {
         return x() + (WIDTH / 2);
     }
+
     default Bounds getBounds() {
          return new Bounds(x(), y(), WIDTH, HEIGHT, 1.0f);
     }
 
-
     default boolean mouseClicked(double mouseX, double mouseY, int button) {
         return false;
     }
+
     default boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         return false;
     }
-
-
-
-
-
 }
-
